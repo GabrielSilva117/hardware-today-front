@@ -1,5 +1,5 @@
 import axios from 'axios'
-import UserModel from '../models/UserModel'
+import UserModel from '../models/user/UserModel'
 
 class UserService {
   api
