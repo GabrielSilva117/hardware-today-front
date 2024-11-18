@@ -1,3 +1,4 @@
+import FilterModel from '@/models/product/FilterModel'
 import axios from 'axios'
 
 class ProductService {
@@ -9,8 +10,8 @@ class ProductService {
     })
   }
 
-  getProductList () {
-    return this.api.get('')
+  getProductList (filter?: FilterModel) {
+    return this.api.get('', { params: filter })
   }
 }
 
