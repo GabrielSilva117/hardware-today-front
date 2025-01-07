@@ -1,5 +1,6 @@
 import FilterModel from '@/models/product/FilterModel'
-import axios from 'axios'
+import { ProductModel } from '@/models/product/ProductModel'
+import axios, { AxiosResponse } from 'axios'
 
 class ProductService {
   api
@@ -10,8 +11,8 @@ class ProductService {
     })
   }
 
-  getProductList (filter?: FilterModel) {
-    return this.api.get('', { params: filter })
+  getProductList (filter?: FilterModel): Promise<AxiosResponse<ProductModel[]>> {
+    return this.api.post<ProductModel[]>('', filter)
   }
 }
 
