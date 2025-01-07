@@ -5,4 +5,5 @@ export default interface FilterModel {
   category: string;
   vendor?: string;
   color?: string;
+  limit?: number;
 }
