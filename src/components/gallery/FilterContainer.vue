@@ -2,11 +2,17 @@
   import { BrandModel } from '@/models/product/BrandModel'
   import { CategoryModel } from '@/models/product/CategoryModel'
   import FilterModel from '@/models/product/FilterModel'
+  import { ProductModel } from '@/models/product/ProductModel'
   import ProductService from '@/services/ProductService'
+  import { defineEmits } from 'vue'
 
   const props = defineProps({
     products: { type: Array, required: true },
   })
+
+  const emit = defineEmits<{
+    filterProducts: ProductModel[]
+  }>()
 
   const price = ref([0])
   const category: CategoryModel[] = []
@@ -29,10 +35,6 @@
     }
   }
 
-  // watch(selectedCategories, (newVal) => {
-  //   console.log('Selected categories:', newVal)
-  // })
-
   const filterProductList = async () => {
     const brandIds = getCSUUIDs(selectedBrands)
     const categoryIds = getCSUUIDs(selectedCategories)
@@ -44,7 +46,9 @@
       category: categoryIds,
     }
 
-    this.$emit('filterProducts', await ProductService.getProductList(filterObj))
+    ProductService.getProductList(filterObj).then(res => {
+      emit('filterProducts', res.data)
+    })
   }
 
   function getCSUUIDs (target: Array<any>) {
@@ -61,10 +65,6 @@
   // function checkIfValueInArray(array: Array, callback: function) {
   //   if (array.length === 0 || callback) {}
   // }
-
-  onMounted(() => {
-    this.filterProductList = this.filterProductList.bind(this)
-  })
 </script>
 
 <template>

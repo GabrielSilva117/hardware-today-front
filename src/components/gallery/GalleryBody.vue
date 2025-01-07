@@ -11,17 +11,19 @@
 <script setup lang="ts">
   import { ProductModel } from '@/models/product/ProductModel'
   import ProductService from '@/services/ProductService'
+  import { ref } from 'vue'
 
-  const products: ProductModel[] = await getProducts()
+  const products = ref<ProductModel[]>([])
 
-  function filterProducts (products: ProductModel[]) {
-    console.log(products)
+  function filterProducts (filteredProds: ProductModel[]) {
+    products.value = filteredProds
   }
 
-  async function getProducts () : Promise<ProductModel[]> {
+  await getProducts()
+
+  async function getProducts () : Promise<void> {
     const prodList = await ProductService.getProductList()
-    console.log(prodList.data)
-    return prodList.data
+    products.value = prodList.data
   }
 </script>
 
